@@ -1,6 +1,6 @@
 # Core Graph Algorithms
 
-A production-ready Python library for fundamental graph algorithms and operations. This library is built from scratch using strictly standard Python libraries.
+A Python library for fundamental graph algorithms and operations. This library is built from scratch using strictly standard Python libraries.
 
 ## Features
 
