@@ -74,5 +74,42 @@ class TestCentrality(unittest.TestCase):
         self.assertAlmostEqual(centrality["C"], 1/3)
         self.assertAlmostEqual(centrality["D"], 1/3)
 
+
+
+class TestGraphTraversalAndPathfinding(unittest.TestCase):
+    def setUp(self):
+        self.graph = Graph()
+
+    def test_bfs(self):
+        self.graph.add_edge("A", "B")
+        self.graph.add_edge("A", "C")
+        self.graph.add_edge("B", "D")
+        self.graph.add_edge("C", "E")
+
+        traversal = self.graph.bfs("A")
+        # B and C could be in any order, but let's check basic properties
+        self.assertEqual(traversal[0], "A")
+        self.assertTrue(traversal[1] in ["B", "C"])
+        self.assertTrue(traversal[2] in ["B", "C"])
+        self.assertTrue(traversal[3] in ["D", "E"])
+        self.assertTrue(traversal[4] in ["D", "E"])
+
+    def test_dijkstra(self):
+        self.graph.add_edge("A", "B", weight=1.0)
+        self.graph.add_edge("B", "C", weight=2.0)
+        self.graph.add_edge("A", "C", weight=4.0)
+
+        distances = self.graph.dijkstra("A")
+        self.assertEqual(distances["A"], 0.0)
+        self.assertEqual(distances["B"], 1.0)
+        self.assertEqual(distances["C"], 3.0)
+
+    def test_dijkstra_unreachable(self):
+        self.graph.add_node("A")
+        self.graph.add_node("B")
+        distances = self.graph.dijkstra("A")
+        self.assertEqual(distances["A"], 0.0)
+        self.assertNotIn("B", distances)
+
 if __name__ == '__main__':
     unittest.main()
